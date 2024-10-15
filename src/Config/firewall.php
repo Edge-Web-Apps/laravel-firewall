@@ -177,6 +177,7 @@ return [
             // ipapi, extremeiplookup, ipstack, ipdata, ipinfo, ipregistry, ip2locationio
             'service' => 'ipapi',
 
+            //Use env variable IPAPI_KEY for api key
             'api_key' => env('IPAPI_KEY', null),
 
             'auto_block' => [
