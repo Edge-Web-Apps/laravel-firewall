@@ -224,7 +224,7 @@ class Geo extends Middleware
         return $location;
     }
 
-    protected function getResponse($url)
+    protected function getResponse($url, $apiKey = null)
     {
         try {
             $ch = curl_init();
@@ -232,6 +232,10 @@ class Geo extends Middleware
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_TIMEOUT, 3);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
+            if(!empty($apiKey)){
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $apiKey);
+            }
             $content = curl_exec($ch);
             curl_close($ch);
 
