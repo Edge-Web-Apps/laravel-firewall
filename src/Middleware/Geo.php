@@ -92,6 +92,23 @@ class Geo extends Middleware
         return $location;
     }
 
+    protected function ipapipro($location)
+    {
+        dd('triggered');
+        $response = $this->getResponse('https://pro.ip-api.com/json/' . $this->ip() . '?fields=continent,country,regionName,city', config('firewall.geo.api_key'));
+
+        if (!is_object($response) || empty($response->country) || empty($response->city)) {
+            return false;
+        }
+
+        $location->continent = $response->continent;
+        $location->country = $response->country;
+        $location->region = $response->regionName;
+        $location->city = $response->city;
+
+        return $location;
+    }
+
     protected function extremeiplookup($location)
     {
         $response = $this->getResponse('https://extreme-ip-lookup.com/json/' . $this->ip());
