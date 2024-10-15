@@ -226,6 +226,7 @@ class Geo extends Middleware
 
     protected function getResponse($url, $apiKey = null)
     {
+        dd($apiKey);
         try {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
