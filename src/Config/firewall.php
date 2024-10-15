@@ -175,7 +175,7 @@ return [
             ],
 
             // ipapi, extremeiplookup, ipstack, ipdata, ipinfo, ipregistry, ip2locationio
-            'service' => 'ipapipro',
+            'service' => 'ipapi',
 
             'api_key' => env('IPAPI_KEY', null),
 

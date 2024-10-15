@@ -94,8 +94,9 @@ class Geo extends Middleware
 
     protected function ipapipro($location)
     {
-        dd('triggered');
         $response = $this->getResponse('https://pro.ip-api.com/json/' . $this->ip() . '?fields=continent,country,regionName,city', config('firewall.geo.api_key'));
+
+        dd($response);
 
         if (!is_object($response) || empty($response->country) || empty($response->city)) {
             return false;
