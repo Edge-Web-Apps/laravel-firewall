@@ -95,7 +95,7 @@ class Geo extends Middleware
     protected function ipapipro($location)
     {
         //Use env variable IPAPI_KEY for api key
-        $response = $this->getResponse('https://pro.ip-api.com/json/' . $this->ip() . '?fields=continent,country,regionName,city', config('firewall.middleware.geo.api_key'));
+        $response = $this->getResponse('https://pro.ip-api.com/json/' . $this->ip() . '?fields=continent,country,regionName,city&key='. config('firewall.middleware.geo.api_key'));
 
         dd($response);
 
@@ -225,7 +225,7 @@ class Geo extends Middleware
         return $location;
     }
 
-    protected function getResponse($url, $apiKey = null)
+    protected function getResponse($url)
     {
         try {
             $ch = curl_init();
@@ -233,10 +233,6 @@ class Geo extends Middleware
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($ch, CURLOPT_TIMEOUT, 3);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
-            if(!empty($apiKey)){
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $apiKey);
-            }
             $content = curl_exec($ch);
             curl_close($ch);
 
