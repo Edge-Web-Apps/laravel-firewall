@@ -21,8 +21,8 @@ abstract class Middleware
      */
     public function handle($request, Closure $next)
     {
-        dd('handled');
         if ($this->skip($request)) {
+            dd('handled');
             return $next($request);
         }
         if ($this->check($this->getPatterns())) {
