@@ -107,9 +107,10 @@ class Geo extends Middleware
     protected function ipapipro($location)
     {
         //Use env variable IPAPI_KEY for api key
-        $response = $this->getResponse('https://pro.ip-api.com/json/' . $this->ip() . '?fields=continent,country,regionName,city&key='. config('firewall.middleware.geo.api_key'));
+//        $response = $this->getResponse('https://pro.ip-api.com/json/' . $this->ip() . '?fields=continent,country,regionName,city&key='. config('firewall.middleware.geo.api_key'));
+        $response = $this->getResponse('https://pro.ip-api.com/json/' . '209.139.228.193' . '?fields=continent,country,regionName,city&key='. config('firewall.middleware.geo.api_key'));
 
-        print_r($response);
+        dd($response);
 
         if (!is_object($response) || empty($response->country) || empty($response->city)) {
             return false;
@@ -239,7 +240,7 @@ class Geo extends Middleware
 
     protected function getResponse($url)
     {
-//        try {
+        try {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -249,9 +250,9 @@ class Geo extends Middleware
             curl_close($ch);
 
             $response = json_decode($content);
-//        } catch (\ErrorException $e) {
-//            $response = null;
-//        }
+        } catch (\ErrorException $e) {
+            $response = null;
+        }
 
         return $response;
     }
