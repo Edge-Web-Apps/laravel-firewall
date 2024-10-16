@@ -21,10 +21,10 @@ abstract class Middleware
      */
     public function handle($request, Closure $next)
     {
+        dd('handled');
         if ($this->skip($request)) {
             return $next($request);
         }
-
         if ($this->check($this->getPatterns())) {
             return $this->respond(config('firewall.responses.block'));
         }
