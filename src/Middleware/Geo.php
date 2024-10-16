@@ -3,6 +3,7 @@
 namespace Akaunting\Firewall\Middleware;
 
 use Akaunting\Firewall\Abstracts\Middleware;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 
 use App\Models\GeolocationSecurity;
@@ -106,11 +107,16 @@ class Geo extends Middleware
 
     protected function ipapipro($location)
     {
-        //Use env variable IPAPI_KEY for api key
-//        $response = $this->getResponse('https://pro.ip-api.com/json/' . $this->ip() . '?fields=continent,country,regionName,city&key='. config('firewall.middleware.geo.api_key'));
-        $response = $this->getResponse('https://pro.ip-api.com/json/' . '209.139.228.193' . '?fields=continent,country,regionName,city&key='. config('firewall.middleware.geo.api_key'));
 
-        dd($response);
+
+        //In local, use simulate IP data
+        if(App::environment('local')){
+            $response = $this->getResponse('https://pro.ip-api.com/json/' . '209.139.228.193' . '?fields=continent,country,regionName,city&key='. config('firewall.middleware.geo.api_key'));
+        }
+        else{
+            //Use env variable IPAPI_KEY for api key
+            $response = $this->getResponse('https://pro.ip-api.com/json/' . $this->ip() . '?fields=continent,country,regionName,city&key='. config('firewall.middleware.geo.api_key'));
+        }
 
         if (!is_object($response) || empty($response->country) || empty($response->city)) {
             return false;
