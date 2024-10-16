@@ -18,15 +18,14 @@ class Geo extends Middleware
         }
 
         if (! $location = $this->getLocation()) {
-            dd($location . ' ' .$this->getLocation());
             return false;
         }
 
         //If user selected list, check that.  otherwise the ones in the config file
         $geolocationSecuritySettings = GeolocationSecurity::first();
-        dd('found2');
+//        dd('found2');
         if(is_array($geolocationSecuritySettings->countries) && count($geolocationSecuritySettings->countries) > 0){
-            dd('found');
+//            dd('found');
             if (in_array((string) $location->country, $geolocationSecuritySettings->countries)) {
                 return true;
             }
@@ -238,7 +237,7 @@ class Geo extends Middleware
 
     protected function getResponse($url)
     {
-        try {
+//        try {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -248,9 +247,9 @@ class Geo extends Middleware
             curl_close($ch);
 
             $response = json_decode($content);
-        } catch (\ErrorException $e) {
-            $response = null;
-        }
+//        } catch (\ErrorException $e) {
+//            $response = null;
+//        }
 
         return $response;
     }
