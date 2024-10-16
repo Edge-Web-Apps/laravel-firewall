@@ -23,6 +23,7 @@ class Geo extends Middleware
 
         //If user selected list, check that.  otherwise the ones in the config file
         $geolocationSecuritySettings = GeolocationSecurity::first();
+        dd('found2');
         if(is_array($geolocationSecuritySettings->countries) && count($geolocationSecuritySettings->countries) > 0){
             dd('found');
             if (in_array((string) $location->country, $geolocationSecuritySettings->countries)) {
