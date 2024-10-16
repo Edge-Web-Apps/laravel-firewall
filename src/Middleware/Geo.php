@@ -24,9 +24,7 @@ class Geo extends Middleware
 
         //If user selected list, check that.  otherwise the ones in the config file
         $geolocationSecuritySettings = GeolocationSecurity::first();
-//        dd('found2');
-        if(is_array($geolocationSecuritySettings->countries) && count($geolocationSecuritySettings->countries) > 0){
-//            dd('found');
+        if(isset($geolocationSecuritySettings->countries) && is_array($geolocationSecuritySettings->countries) && count($geolocationSecuritySettings->countries) > 0){
             if (in_array((string) $location->country, $geolocationSecuritySettings->countries)) {
                 return true;
             }
@@ -107,9 +105,7 @@ class Geo extends Middleware
 
     protected function ipapipro($location)
     {
-
-
-        //In local, use simulate IP data
+        //In local, use simulated IP data for testing purposes
         if(App::environment('local')){
             $response = $this->getResponse('https://pro.ip-api.com/json/' . '209.139.228.193' . '?fields=continent,country,regionName,city&key='. config('firewall.middleware.geo.api_key'));
         }
