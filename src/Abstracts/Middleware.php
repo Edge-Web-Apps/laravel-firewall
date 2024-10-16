@@ -22,7 +22,6 @@ abstract class Middleware
     public function handle($request, Closure $next)
     {
         if ($this->skip($request)) {
-            dd('handled');
             return $next($request);
         }
         if ($this->check($this->getPatterns())) {
@@ -64,6 +63,7 @@ abstract class Middleware
 
     public function getPatterns()
     {
+        dd('handled');
         return config('firewall.middleware.' . $this->middleware . '.patterns', []);
     }
 
