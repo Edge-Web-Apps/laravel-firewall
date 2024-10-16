@@ -18,6 +18,7 @@ class Geo extends Middleware
         }
 
         if (! $location = $this->getLocation()) {
+            dd('found3');
             return false;
         }
 
