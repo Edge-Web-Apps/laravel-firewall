@@ -109,6 +109,8 @@ class Geo extends Middleware
         //Use env variable IPAPI_KEY for api key
         $response = $this->getResponse('https://pro.ip-api.com/json/' . $this->ip() . '?fields=continent,country,regionName,city&key='. config('firewall.middleware.geo.api_key'));
 
+        dd($response);
+
         if (!is_object($response) || empty($response->country) || empty($response->city)) {
             return false;
         }
