@@ -63,7 +63,7 @@ abstract class Middleware
 
     public function getPatterns()
     {
-        dd('handled');
+        dd(config('firewall.middleware.' . $this->middleware . '.patterns', []));
         return config('firewall.middleware.' . $this->middleware . '.patterns', []);
     }
 
