@@ -22,8 +22,17 @@ class Geo extends Middleware
             return false;
         }
 
-        //If user selected list, check that.  otherwise the ones in the config file
+        //Get geolocation settings first
         $geolocationSecuritySettings = GeolocationSecurity::first();
+
+        //Optional check for proxy/VPN
+        if(isset($geolocationSecuritySettings->enable_vpn_block) && ($geolocationSecuritySettings->enable_vpn_block === 1)){
+            if( ($location->proxy || $location->hosting) === true){
+                return true;
+            }
+        }
+
+        //If user selected list, check that.  otherwise the ones in the config file
         if(isset($geolocationSecuritySettings->countries) && is_array($geolocationSecuritySettings->countries) && count($geolocationSecuritySettings->countries) > 0){
             if (in_array((string) $location->country, $geolocationSecuritySettings->countries)) {
                 return true;
@@ -80,7 +89,7 @@ class Geo extends Middleware
     protected function getLocation()
     {
         $location = new \stdClass();
-        $location->continent = $location->country = $location->region = $location->city = null;
+        $location->continent = $location->country = $location->region = $location->city = $location->proxy = $location->hosting = null;
 
         $service = config('firewall.middleware.' . $this->middleware . '.service');
 
@@ -122,6 +131,8 @@ class Geo extends Middleware
         $location->country = $response->country;
         $location->region = $response->regionName;
         $location->city = $response->city;
+        $location->proxy = $response->proxy;
+        $location->hosting = $response->hosting;
 
         return $location;
     }
