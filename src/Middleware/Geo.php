@@ -123,8 +123,6 @@ class Geo extends Middleware
             $response = $this->getResponse('https://pro.ip-api.com/json/' . $this->ip() . '?fields=continent,country,regionName,city,proxy,hosting&key='. config('firewall.middleware.geo.api_key'));
         }
 
-        dd($response);
-
         if (!is_object($response) || empty($response->country) || empty($response->city)) {
             return false;
         }
